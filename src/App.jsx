@@ -20,12 +20,12 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md text-center">
+    <div className="min-h-screen bg-[url('/background.jpg')] bg-center bg-cover flex items-center justify-center p-4 "> 
+      <div className=" rounded-2xl shadow-2xl p-8 w-full max-w-md text-center backdrop-blur-2xl">
         <h1 className="text-4xl font-bold text-blue-600 mb-6">Letter Recognition</h1>
 
         <label className="block mb-4 cursor-pointer">
-          <span className="text-sm text-gray-500">Upload a letter image</span>
+          <span className="text-sm text-gray-900">Upload a letter image</span>
           <input
             type="file"
             accept="image/*"
