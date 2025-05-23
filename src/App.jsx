@@ -1,9 +1,11 @@
 import { useState } from "react";
+import axios from "axios";
 
 function App() {
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [prediction, setPrediction] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -14,14 +16,38 @@ function App() {
     }
   };
 
-  const handlePredict = () => {
-    const fakeResult = "අ";
-    setPrediction(fakeResult);
+  const handlePredict = async () => {
+    if (!image) return;
+
+    const formData = new FormData();
+    formData.append("file", image);
+
+    try {
+      setLoading(true);
+      const response = await axios.post("http://localhost:8000/predict/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const preds = response.data.predictions;
+      if (preds && preds.length > 0) {
+        const topPrediction = preds[0].name || preds[0].class || "Unknown";
+        setPrediction(topPrediction);
+      } else {
+        setPrediction("No letter detected");
+      }
+    } catch (error) {
+      console.error("Prediction failed:", error);
+      setPrediction("Error predicting letter");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[url('/background.jpg')] bg-center bg-cover flex items-center justify-center p-4 "> 
-      <div className=" rounded-2xl shadow-2xl p-8 w-full max-w-md text-center backdrop-blur-2xl">
+    <div className="min-h-screen bg-[url('/background.jpg')] bg-center bg-cover flex items-center justify-center p-4">
+      <div className="rounded-2xl shadow-2xl p-8 w-full max-w-md text-center backdrop-blur-2xl">
         <h1 className="text-4xl font-bold text-blue-600 mb-6">Letter Recognition</h1>
 
         <label className="block mb-4 cursor-pointer">
@@ -44,14 +70,14 @@ function App() {
 
         <button
           onClick={handlePredict}
-          disabled={!image}
+          disabled={!image || loading}
           className={`w-full py-2 rounded-lg text-white font-medium transition-all ${
-            image
+            image && !loading
               ? "bg-blue-500 hover:bg-blue-600"
               : "bg-gray-400 cursor-not-allowed"
           }`}
         >
-          Predict Letter
+          {loading ? "Predicting..." : "Predict Letter"}
         </button>
 
         {prediction && (
