@@ -15,7 +15,7 @@ function App() {
   };
 
   const handlePredict = () => {
-    const fakeResult = "A";
+    const fakeResult = "අ";
     setPrediction(fakeResult);
   };
 
@@ -55,7 +55,7 @@ function App() {
         </button>
 
         {prediction && (
-          <div className="mt-6 text-2xl font-bold text-green-600 animate-bounce">
+          <div className="mt-6 text-3xl font-bold text-green-600 animate-bounce">
             Predicted: {prediction}
           </div>
         )}
