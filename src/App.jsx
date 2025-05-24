@@ -24,7 +24,7 @@ function App() {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:8000/predict/", formData, {
+      const response = await axios.post(import.meta.env.VITE_BACKEND_URL + "/predict/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
