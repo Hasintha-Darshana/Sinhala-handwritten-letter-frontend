@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import classToSinhala from "./classToSinhala";
 
 function App() {
   const [image, setImage] = useState(null);
@@ -33,7 +34,8 @@ function App() {
       const preds = response.data.predictions;
       if (preds && preds.length > 0) {
         const topPrediction = preds[0].name || preds[0].class || "Unknown";
-        setPrediction(topPrediction);
+        const sinhalaLetter = classToSinhala[className] || className;
+        setPrediction(sinhalaLetter);
       } else {
         setPrediction("No letter detected");
       }
