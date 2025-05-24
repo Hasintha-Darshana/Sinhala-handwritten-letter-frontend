@@ -33,7 +33,7 @@ function App() {
 
       const preds = response.data.predictions;
       if (preds && preds.length > 0) {
-        const topPrediction = preds[0].name || preds[0].class || "Unknown";
+        const className = preds[0].name || preds[0].class || "Unknown";
         const sinhalaLetter = classToSinhala[className] || className;
         setPrediction(sinhalaLetter);
       } else {
